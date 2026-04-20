@@ -42,3 +42,29 @@ Este proyecto está dedicado al **Gobierno de Datos y el Aseguramiento de Calida
 
 ---
 > **Project Goal:** Moving from "just data" to **Trusted Data**. 🛡️
+
+## 🖼️ Dashboard & Data Evidence / Galería y Evidencia
+
+### 🔍 Quality & Insights Overview
+*Visualización del sistema de auditoría y los resultados de negocio tras el filtrado de datos.*
+
+| 📊 1. Business Insights | 🛡️ 2. Quality Audit |
+| :---: | :---: |
+| ![Página 1](PAGE1.png) | ![Página 2](PAGE2.png) |
+| *Vista ejecutiva de los datos ya procesados y limpios.* | *Dashboard técnico de monitoreo de errores y salud de datos.* |
+
+### 📂 3. Quarantined Data (Dirty CSV)
+*Evidencia del archivo generado por el script de Python que contiene los registros rechazados por inconsistencias.*
+
+| 📁 Failed Records Log |
+| :---: |
+| ![Foto CSV Sucio](CSVB.png) |
+| *Registros con IDs nulos, precios negativos o cantidades incoherentes detectados automáticamente.* |
+
+---
+
+### ⚙️ Pipeline Workflow / Flujo del Pipeline
+1. **Source:** Dataset original con ruidos e inconsistencias.
+2. **Python Filter:** Script de limpieza que bifurca la data.
+3. **Storage:** Carga automática a SQL Server (Tablas de Producción vs. Tablas de Auditoría).
+4. **Visualization:** Dashboards dinámicos para gestión de ventas y control de calidad.
