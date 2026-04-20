@@ -18,19 +18,19 @@ class SQLUniversalBridge:
     def procesar_y_subir(self, df, nombre_tabla):
         """Aplica analítica y sube a SQL"""
         try:
-            # --- LÓGICA DE NEGOCIO (Analítica Senior) ---
+         
             df['TotalRevenue'] = df['Quantity'] * df['UnitPrice']
             
-            # 1. Promedio general para comparar
+            
             media_venta = df['TotalRevenue'].mean()
             df['Venta_Promedio_Global'] = media_venta
             
-            # 2. Categorización VIP/Regular
+           
             df['Categoria_Venta'] = df['TotalRevenue'].apply(
                 lambda x: 'VIP (Alta)' if x > media_venta else 'Regular (Baja)'
             )
             
-            # 3. Categorización de producto
+            
             df['Tipo_Producto'] = df['UnitPrice'].apply(
                 lambda x: 'Lujo/Premium' if x > 100 else 'Consumo Masivo'
             )
