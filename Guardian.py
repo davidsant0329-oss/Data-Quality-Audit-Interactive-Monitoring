@@ -5,10 +5,10 @@ import sys
 import io
 from bridge import SQLUniversalBridge
 
-# Forzamos a la terminal a usar UTF-8 para evitar errores de caracteres
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# Configuración de Logs básica (sin emojis para evitar errores de Unicode)
+
 logging.basicConfig(
     level=logging.INFO, 
     format='%(levelname)s: %(message)s'
@@ -27,7 +27,7 @@ class DataGuardian:
             return False
         
         try:
-            # Cargamos el archivo CLEANPROYECT.csv
+            
             self.df = pd.read_csv(self.archivo, encoding='latin1')
             logging.info(f"DATOS CARGADOS: {len(self.df)} registros.")
             return True
@@ -39,23 +39,21 @@ class DataGuardian:
         """Limpia y separa datos de calidad de los errores"""
         logging.info("INICIANDO AUDITORIA...")
 
-        # 1. Limpieza de Texto
+       
         self.df['Description'] = self.df['Description'].str.strip().str.upper()
         
-        # 2. Formato de Fechas
+      
         self.df['InvoiceDate'] = pd.to_datetime(self.df['InvoiceDate'])
         
-        # 3. Manejo de Nulos (CustomerID)
+       
         self.df['CustomerID'] = self.df['CustomerID'].fillna(0).astype(int)
 
-        # 4. Separación de datos (Cuarentena vs Certificados)
-        # Regla: Precios > 0 y Cantidades > 0
         mascara_validos = (self.df['UnitPrice'] > 0) & (self.df['Quantity'] > 0)
         
         datos_certificados = self.df[mascara_validos].copy()
         self.errores = self.df[~mascara_validos].copy()
 
-        # 5. Guardar errores localmente para auditoría
+      
         if not self.errores.empty:
             self.errores.to_csv("cuarentena_errores.csv", index=False)
             logging.info(f"REPORTE: {len(self.errores)} errores mandados a 'cuarentena_errores.csv'")
@@ -65,20 +63,19 @@ class DataGuardian:
 
 # --- FLUJO PRINCIPAL ---
 if __name__ == "__main__":
-    # 1. Asegúrate que el nombre sea exacto: CLEANPROYECT.csv
-    # Si estás dentro de la carpeta PROYECTOS, no pongas "PROYECTOS/"
+  
     archivo_csv = "CLEANPROYECT.csv" 
     
     guardian = DataGuardian(archivo_csv)
     
     if guardian.cargar_y_validar():
-        # Ejecutamos la limpieza y obtenemos el DF final
+        
         df_para_sql = guardian.auditoria_profunda()
         
-        # 2. Usamos tu bridge para subir a SQL
+       
         try:
             db_sql = SQLUniversalBridge()
-            # Este método aplica la categorización VIP y sube a la base BASED
+           
             db_sql.procesar_y_subir(df_para_sql, "Ventas_Auditadas_Final")
         except Exception as e:
             logging.error(f"ERROR DE CONEXION SQL: {e}")
