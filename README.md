@@ -50,7 +50,7 @@ Este proyecto está dedicado al **Gobierno de Datos y el Aseguramiento de Calida
 
 | 📊 1. Business Insights | 🛡️ 2. Quality Audit |
 | :---: | :---: |
-| ![Página 1](PAGE1.png) | ![Página 2](PAGE2.png) |
+| ![Página 1](FIRST.png) | ![Página 2](SECOND.png) |
 | *Vista ejecutiva de los datos ya procesados y limpios.* | *Dashboard técnico de monitoreo de errores y salud de datos.* |
 
 ### 📂 3. Quarantined Data (Dirty CSV)
